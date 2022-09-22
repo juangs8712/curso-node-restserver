@@ -1,4 +1,8 @@
 import { Router } from 'express';
+import { check } from 'express-validator';
+
+import { validarCampos } from '../middlewares/validar-campos.js';
+import esRoleValido, { emailExiste, existeUsuarioById } from '../helpers/db-validators.js';
 import { 
     usuariosGet,
     usuariosPut,
@@ -7,16 +11,40 @@ import {
     usuariosPatch, 
 } from '../controllers/usuarios.js';
 
+// -----------------------------------------------------
 const router = Router();
-
+// -----------------------------------------------------
 router.get('/', usuariosGet);
-
-router.put('/:id', usuariosPut);
-
-router.post('/', usuariosPost);
-
-router.delete('/', usuariosDelete);
-
+// -----------------------------------------------------
+router.put('/:id', 
+    [
+        check("id", "No es un ID válido").isMongoId(),
+        check( 'id' ).custom( existeUsuarioById ),
+        check('rol').custom( esRoleValido ),
+        validarCampos
+    ],
+    usuariosPut);
+// -----------------------------------------------------
+router.post('/',
+    // estos son middlewares
+    [
+        check('nombre', 'El  nombre es obligatorio').notEmpty(),
+        check('correo', 'El  correo no es válido').isEmail(),
+        check('password', 'La contraseña debe tener al menos 6 caracteres.').isLength({ min: 6 }),
+        check('correo').custom( emailExiste ),
+        // check('rol', 'El rol no es válido.').isIn( [ 'ADMIN_ROLE', 'USER_ROLE' ] ),
+        check('rol').custom( esRoleValido ),
+        validarCampos        
+    ],
+    usuariosPost
+);
+// -----------------------------------------------------
+router.delete('/:id', [
+    check("id", "No es un ID válido").isMongoId(),
+    check( 'id' ).custom( existeUsuarioById ),
+    validarCampos
+], usuariosDelete);
+// -----------------------------------------------------
 router.patch('/', usuariosPatch);
-
+// -----------------------------------------------------
 export default router;

@@ -1,3 +1,5 @@
+// console.clear();
+
 import * as dotenv from 'dotenv'
 import Server from './models/server.js'
 
