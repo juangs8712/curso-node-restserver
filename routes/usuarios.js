@@ -1,8 +1,19 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 
-import { validarCampos } from '../middlewares/validar-campos.js';
-import esRoleValido, { emailExiste, existeUsuarioById } from '../helpers/db-validators.js';
+import { 
+    validarCampos, 
+    validarJWT, 
+    esAdminRole, 
+    tieneRole 
+} from '../middlewares/index.js';
+
+import { 
+    esRoleValido, 
+    emailExiste, 
+    existeUsuarioById 
+} from '../helpers/db-validators.js';
+
 import { 
     usuariosGet,
     usuariosPut,
@@ -12,11 +23,11 @@ import {
 } from '../controllers/usuarios.js';
 
 // -----------------------------------------------------
-const router = Router();
+const userRouter = Router();
 // -----------------------------------------------------
-router.get('/', usuariosGet);
+userRouter.get('/', usuariosGet);
 // -----------------------------------------------------
-router.put('/:id', 
+userRouter.put('/:id', 
     [
         check("id", "No es un ID válido").isMongoId(),
         check( 'id' ).custom( existeUsuarioById ),
@@ -25,7 +36,7 @@ router.put('/:id',
     ],
     usuariosPut);
 // -----------------------------------------------------
-router.post('/',
+userRouter.post('/',
     // estos son middlewares
     [
         check('nombre', 'El  nombre es obligatorio').notEmpty(),
@@ -39,12 +50,15 @@ router.post('/',
     usuariosPost
 );
 // -----------------------------------------------------
-router.delete('/:id', [
+userRouter.delete('/:id', [
+    validarJWT,
+    // esAdminRole,
+    tieneRole( 'ADMIN_ROLE', 'VENTAS_ROLE', 'OTRO_ROLE' ),
     check("id", "No es un ID válido").isMongoId(),
     check( 'id' ).custom( existeUsuarioById ),
     validarCampos
 ], usuariosDelete);
 // -----------------------------------------------------
-router.patch('/', usuariosPatch);
+userRouter.patch('/', usuariosPatch);
 // -----------------------------------------------------
-export default router;
+export default userRouter;

@@ -12,7 +12,7 @@ export const usuariosGet = async (req = request, res = response) => {
     const query = { estado: true };
 
     // esta es una forma de hacer lo mismo del Promise.all 
-    // pero Promise.all se demora mucho mas
+    // pero Promise.all se demora mucho menos
     // const usuarios = await Usuario.find( query )
     //     .skip( Number( desde ) )
     //     .limit( Number( limite ) );

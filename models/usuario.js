@@ -14,7 +14,8 @@ const UsuarioSchema = Schema({
 UsuarioSchema.methods.toJSON = function (){
     // con esta funcion se extrae la version(__v) y la contraseña
     // entonces usuario se queda con el resto de los campos del objeto
-    const { __v, password, ...usuario } = this.toObject();
+    const { __v, password, _id, ...usuario } = this.toObject();
+    usuario.uid = _id;
     return usuario;
 }
 

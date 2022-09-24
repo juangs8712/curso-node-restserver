@@ -3,7 +3,7 @@ import Role from '../models/role.js';
 import Usuario from "../models/usuario.js";
 
 // -----------------------------------------------------
-const esRoleValido = async( rol = '' ) => {
+export const esRoleValido = async( rol = '' ) => {
     const existeRole = await Role.findOne({ rol });
 
     if ( !existeRole ){
@@ -11,7 +11,7 @@ const esRoleValido = async( rol = '' ) => {
     }
 }
 // -----------------------------------------------------
-export default esRoleValido;
+// export default esRoleValido;
 // -----------------------------------------------------
 export const emailExiste = async( correo = '' ) => {
     const existeEmail = await Usuario.findOne( { correo } );
