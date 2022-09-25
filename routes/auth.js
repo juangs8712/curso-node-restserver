@@ -1,18 +1,24 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 
-import { login } from '../controllers/auth.js';
+import { googleSignin, login } from '../controllers/auth.js';
 import { validarCampos } from '../middlewares/validar-campos.js';
 
 
 // -----------------------------------------------------
-const authRouter = Router();
+export const authRouter = Router();
 // -----------------------------------------------------
 authRouter.post('/login',[
     check('correo', 'El correo es obligatorio').isEmail(),
     check('password', 'La contraseña es obligatoria').notEmpty(),
     validarCampos
-], login);
+], login
+);
 // -----------------------------------------------------
-export default authRouter;
+authRouter.post('/google', [
+    check('id_token', 'El id_token es necesario').notEmpty(),
+    validarCampos
+], googleSignin
+);
+
 // -----------------------------------------------------

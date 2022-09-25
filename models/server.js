@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 
 import userRouter from '../routes/usuarios.js';
-import authRouter from '../routes/auth.js';
+import { authRouter } from '../routes/auth.js';
 
 import { dbConnection } from '../database/config.js';
 
