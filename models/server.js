@@ -1,8 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 
-import userRouter from '../routes/usuarios.js';
-import { authRouter } from '../routes/auth.js';
+import { 
+    authRouter,
+    categoryRouter, 
+    productRouter,
+    searchRouter,
+    userRouter 
+}from '../routes/index.js';
 
 import { dbConnection } from '../database/config.js';
 
@@ -11,8 +16,14 @@ export default class Server{
     constructor(){
         this.app = express();
         this.port = process.env.PORT;
-        this.usuariosPath = '/api/usuarios';
-        this.authPath =     '/api/auth';
+
+        this.path = {
+            auth:     '/api/auth',
+            category: '/api/categorias',
+            search:   '/api/buscar',
+            product:  '/api/productos',
+            user:     '/api/usuarios',
+        }
 
         // conectar a base de datos
         this.conectarDB();
@@ -42,9 +53,12 @@ export default class Server{
     }
 
     // -----------------------------------------------------
-    routes(){
-        this.app.use( this.authPath, authRouter );
-        this.app.use( this.usuariosPath, userRouter );
+    routes()  {
+        this.app.use( this.path.auth,     authRouter );
+        this.app.use( this.path.category, categoryRouter );
+        this.app.use( this.path.product,  productRouter );
+        this.app.use( this.path.search,   searchRouter );
+        this.app.use( this.path.user,     userRouter );
     }
     // -----------------------------------------------------
     listen(){

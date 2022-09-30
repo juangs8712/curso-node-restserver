@@ -1,8 +1,5 @@
 import { request, response } from 'express';
 
-
-import Usuario from '../models/usuario.js';
-
 // -----------------------------------------------------
 export const esAdminRole = ( req = request, res = response, next ) => {
     // verificar si el token esta validado

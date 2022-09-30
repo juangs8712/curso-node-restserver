@@ -12,7 +12,7 @@ import {
     esRoleValido, 
     emailExiste, 
     existeUsuarioById 
-} from '../helpers/db-validators.js';
+} from '../helpers/index.js';
 
 import { 
     usuariosGet,
@@ -23,11 +23,11 @@ import {
 } from '../controllers/usuarios.js';
 
 // -----------------------------------------------------
-const userRouter = Router();
+const router = Router();
 // -----------------------------------------------------
-userRouter.get('/', usuariosGet);
+router.get('/', usuariosGet);
 // -----------------------------------------------------
-userRouter.put('/:id', 
+router.put('/:id', 
     [
         check("id", "No es un ID válido").isMongoId(),
         check( 'id' ).custom( existeUsuarioById ),
@@ -36,7 +36,7 @@ userRouter.put('/:id',
     ],
     usuariosPut);
 // -----------------------------------------------------
-userRouter.post('/',
+router.post('/',
     // estos son middlewares
     [
         check('nombre', 'El  nombre es obligatorio').notEmpty(),
@@ -50,7 +50,7 @@ userRouter.post('/',
     usuariosPost
 );
 // -----------------------------------------------------
-userRouter.delete('/:id', [
+router.delete('/:id', [
     validarJWT,
     // esAdminRole,
     tieneRole( 'ADMIN_ROLE', 'VENTAS_ROLE', 'OTRO_ROLE' ),
@@ -59,6 +59,6 @@ userRouter.delete('/:id', [
     validarCampos
 ], usuariosDelete);
 // -----------------------------------------------------
-userRouter.patch('/', usuariosPatch);
+router.patch('/', usuariosPatch);
 // -----------------------------------------------------
-export default userRouter;
+export default router;

@@ -1,7 +1,7 @@
 import { request, response } from 'express';
 import jwt from 'jsonwebtoken';
 
-import Usuario from '../models/usuario.js';
+import { Usuario } from '../models/index.js';
 
 
 // -----------------------------------------------------
@@ -43,7 +43,6 @@ export const validarJWT = async ( req = request, res = response, next ) => {
         // ejecutar el middleware siguiente
         next();
     } catch (error) {
-        console.log(error);
         return res.status( 401 ).json({
             msg: 'Token no válido'
         });

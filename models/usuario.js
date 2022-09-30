@@ -1,7 +1,8 @@
 import { Schema, model } from 'mongoose'
 
 
-const UsuarioSchema = Schema({
+// -----------------------------------------------------
+export const UsuarioSchema = Schema({
     nombre:   { type: String, required: [true, 'El nombre es obligatorio'] },
     correo:   { type: String, required: [true, 'El correo es obligatorio'], unique: true },
     password: { type: String, required: [true, 'La contraseña es obligatoria'] },
@@ -11,6 +12,7 @@ const UsuarioSchema = Schema({
     google:   { type: Boolean, default: false },
 });
 
+// -----------------------------------------------------
 UsuarioSchema.methods.toJSON = function (){
     // con esta funcion se extrae la version(__v) y la contraseña
     // entonces usuario se queda con el resto de los campos del objeto
@@ -18,5 +20,6 @@ UsuarioSchema.methods.toJSON = function (){
     usuario.uid = _id;
     return usuario;
 }
+// -----------------------------------------------------
 
 export default model( 'Usuario', UsuarioSchema );

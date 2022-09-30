@@ -1,9 +1,7 @@
 import { response, request } from "express";
 import bcryptjs from 'bcryptjs';
-import { validationResult } from 'express-validator';
 
-
-import Usuario from "../models/usuario.js";
+import { Usuario } from "../models/index.js";
 
 // -----------------------------------------------------
 export const usuariosGet = async (req = request, res = response) => {
@@ -56,14 +54,14 @@ export const usuariosPut = async (req = request, res = response) => {
     // del body y evitar que explote el servidor
     const { _id, password, google, correo, ...resto } = req.body;
 
-    // TODO: Validar contra la base de datos
     if( password ){
         const salt = bcryptjs.genSaltSync();
         resto.password = bcryptjs.hashSync( password, salt );     //hashSync encrypta en una sola via
     }
-    const usuario = await Usuario.findByIdAndUpdate( id, resto );
+    await Usuario.findByIdAndUpdate( id, resto );
+    const usuario = await Usuario.findById( id );
 
-    res.json( usuario );
+    res.json( {usuario} );
 }
 
 // -----------------------------------------------------

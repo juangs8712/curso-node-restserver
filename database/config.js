@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// -----------------------------------------------------
 export const dbConnection = async () => {
     try {
         await mongoose.connect(process.env.MONGODB_CNN,
@@ -16,3 +17,4 @@ export const dbConnection = async () => {
         throw new Error('Error de conexión con la base de datos');
     }
 }
+// -----------------------------------------------------

@@ -1,9 +1,8 @@
 import { response, request } from "express";
 import bcryptjs from 'bcryptjs';
 
-import Usuario from '../models/usuario.js';
-import { generarJWT } from "../helpers/generar-jwt.js";
-import { googleVerify } from "../helpers/google-verify.js";
+import { Usuario } from '../models/index.js';
+import { generarJWT, googleVerify } from "../helpers/index.js";
 
 
 // -----------------------------------------------------
