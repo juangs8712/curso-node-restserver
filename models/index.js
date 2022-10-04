@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { model } from 'mongoose';
 
 import { CategoriaSchema } from './categoria.js';
 import { RoleSchema }      from './role.js';

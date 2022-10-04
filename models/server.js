@@ -1,11 +1,13 @@
 import express from 'express';
 import cors from 'cors';
+import fileUpload from 'express-fileupload';
 
 import { 
     authRouter,
     categoryRouter, 
     productRouter,
     searchRouter,
+    uploadsRouter,
     userRouter 
 }from '../routes/index.js';
 
@@ -22,6 +24,7 @@ export default class Server{
             category: '/api/categorias',
             search:   '/api/buscar',
             product:  '/api/productos',
+            uploads:  '/api/uploads',
             user:     '/api/usuarios',
         }
 
@@ -50,6 +53,13 @@ export default class Server{
 
         // directorio publico
         this.app.use( express.static( 'public' ) );
+
+        // File upload - Carga de archivos
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            createParentPath: true
+        }));
     }
 
     // -----------------------------------------------------
@@ -58,6 +68,7 @@ export default class Server{
         this.app.use( this.path.category, categoryRouter );
         this.app.use( this.path.product,  productRouter );
         this.app.use( this.path.search,   searchRouter );
+        this.app.use( this.path.uploads,  uploadsRouter );
         this.app.use( this.path.user,     userRouter );
     }
     // -----------------------------------------------------
