@@ -4,8 +4,8 @@ import { check } from 'express-validator';
 
 import { 
     cargarArchivo, 
-    actualizarImagen, 
-    mostrarImagen 
+    actualizarImagenCloudinary,
+    mostrarImagenCloudinary
 } from '../controllers/index.js';
 import { 
     checkUploadsParam, 
@@ -27,13 +27,13 @@ router.put( '/:coleccion/:id', [
     validarArchivoSubir,
     validarCampos,
     checkUploadsParam
-], actualizarImagen );
+], actualizarImagenCloudinary );
 // -----------------------------------------------------
 router.get('/:coleccion/:id', [
     check( 'id', 'El id deber ser de mongo' ).isMongoId(),
     validarCampos,
     checkUploadsParam
-], mostrarImagen );
+], mostrarImagenCloudinary );
 // -----------------------------------------------------
 
 // -----------------------------------------------------
