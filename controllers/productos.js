@@ -42,7 +42,7 @@ export const obtenerProductoById = async ( req = request, res = response ) => {
 // -----------------------------------------------------
 // Crear Productos
 export const crearProducto = async ( req = request, res = response ) => {
-    const { usuario, nombre, estado, disponible, ...resto } = req.body;
+    const { usuario, nombre, estado, ...resto } = req.body;
     
     // validar si el producto ya existe en la BD 
     const productoDB = await Producto.findOne( { nombre: nombre.toUpperCase() } );    
@@ -53,9 +53,8 @@ export const crearProducto = async ( req = request, res = response ) => {
     }
 
     const data = {
-        resto,
+        ...resto,
         nombre: nombre.toUpperCase(),
-        disponible,
         usuario: req.usuario._id
     }
 
