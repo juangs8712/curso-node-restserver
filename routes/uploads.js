@@ -18,7 +18,8 @@ import {
 const router = Router();
 // -----------------------------------------------------
 
-router.post( '/', validarArchivoSubir, cargarArchivo );
+// router.post( '/', validarArchivoSubir, cargarArchivo ); // este sube los archivos a local
+router.post( '/', validarArchivoSubir, actualizarImagenCloudinary );
 // -----------------------------------------------------
 // esta es otra forma de validar un parametro
 // check( 'coleccion' ).custom( c => coleccionesPermitidas( c, [ 'usuarios', 'productos' ] ) ),
